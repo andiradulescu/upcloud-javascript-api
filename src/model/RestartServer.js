@@ -8,18 +8,24 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient'], factory);
+    define(['ApiClient', 'model/RestartServerRequest'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'));
+    module.exports = factory(
+      require('../ApiClient'),
+      require('./RestartServerRequest'),
+    );
   } else {
     // Browser globals (root is window)
     if (!root.upcloud) {
       root.upcloud = {};
     }
-    root.upcloud.RestartServer = factory(root.upcloud.ApiClient);
+    root.upcloud.RestartServer = factory(
+      root.upcloud.ApiClient,
+      root.upcloud.RestartServerRequest,
+    );
   }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, RestartServerRequest) {
   'use strict';
 
   /**
@@ -48,16 +54,9 @@
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('stop_type')) {
-        obj['stop_type'] = ApiClient.convertToType(data['stop_type'], 'String');
-      }
-      if (data.hasOwnProperty('timeout')) {
-        obj['timeout'] = ApiClient.convertToType(data['timeout'], 'Number');
-      }
-      if (data.hasOwnProperty('timeout_action')) {
-        obj['timeout_action'] = ApiClient.convertToType(
-          data['timeout_action'],
-          'String',
+      if (data.hasOwnProperty('restart_server')) {
+        obj['restart_server'] = RestartServerRequest.constructFromObject(
+          data['restart_server'],
         );
       }
     }
@@ -65,57 +64,9 @@
   };
 
   /**
-   * Restart type
-   * @member {module:model/RestartServer.StopTypeEnum} stop_type
-   * @default 'soft'
+   * @member {module:model/RestartServerRequest} restart_server
    */
-  exports.prototype['stop_type'] = 'soft';
-  /**
-   * Stop timeout in seconds
-   * @member {Number} timeout
-   */
-  exports.prototype['timeout'] = undefined;
-  /**
-   * Action to take if timeout limit is exceeded.
-   * @member {module:model/RestartServer.TimeoutActionEnum} timeout_action
-   */
-  exports.prototype['timeout_action'] = undefined;
-
-  /**
-   * Allowed values for the <code>stop_type</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.StopTypeEnum = {
-    /**
-     * value: "soft"
-     * @const
-     */
-    soft: 'soft',
-    /**
-     * value: "hard"
-     * @const
-     */
-    hard: 'hard',
-  };
-
-  /**
-   * Allowed values for the <code>timeout_action</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.TimeoutActionEnum = {
-    /**
-     * value: "destroy"
-     * @const
-     */
-    destroy: 'destroy',
-    /**
-     * value: "ignore"
-     * @const
-     */
-    ignore: 'ignore',
-  };
+  exports.prototype['restart_server'] = undefined;
 
   return exports;
 });

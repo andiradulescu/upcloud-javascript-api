@@ -50,6 +50,7 @@
         'model/PriceListResponsePrices',
         'model/PriceZone',
         'model/RestartServer',
+        'model/RestartServerRequest',
         'model/Server',
         'model/ServerListResponse',
         'model/ServerListResponseServers',
@@ -139,6 +140,7 @@
       require('./model/PriceListResponsePrices'),
       require('./model/PriceZone'),
       require('./model/RestartServer'),
+      require('./model/RestartServerRequest'),
       require('./model/Server'),
       require('./model/ServerListResponse'),
       require('./model/ServerListResponseServers'),
@@ -225,6 +227,7 @@
   PriceListResponsePrices,
   PriceZone,
   RestartServer,
+  RestartServerRequest,
   Server,
   ServerListResponse,
   ServerListResponseServers,
@@ -503,6 +506,11 @@
      * @property {module:model/RestartServer}
      */
     RestartServer: RestartServer,
+    /**
+     * The RestartServerRequest model constructor.
+     * @property {module:model/RestartServerRequest}
+     */
+    RestartServerRequest: RestartServerRequest,
     /**
      * The Server model constructor.
      * @property {module:model/Server}
